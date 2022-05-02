@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="168dp"
         android:layout_marginTop="24dp"
-        android:text="FIT APP"
+        android:text="Fit App"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -53,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
+        android:id="@+id/btnCrearEntrenamiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="133dp"
@@ -70,7 +71,7 @@
         tools:text="Crear Entrenamiento" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/btnTemporizador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

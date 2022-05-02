@@ -7,7 +7,7 @@
     tools:context=".activity_login">
 
     <EditText
-        android:id="@+id/txtRegistroNombreUsuario"
+        android:id="@+id/txtInicioNombreUsuario"
         android:layout_width="363dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/txtRegistroContrasena"
+        android:id="@+id/txtInicioContrasena"
         android:layout_width="363dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
@@ -32,7 +32,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegistroNombreUsuario" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInicioNombreUsuario" />
 
     <Button
         android:id="@+id/btnIniciar"
@@ -41,11 +41,12 @@
         android:layout_marginStart="160dp"
         android:layout_marginTop="52dp"
         android:backgroundTint="#F15D66"
+        android:onClick="onClick"
         android:text="Iniciar"
         android:textColor="#FFFFFF"
         app:cornerRadius="25dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegistroContrasena" />
+        app:layout_constraintTop_toBottomOf="@+id/txtInicioContrasena" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -72,7 +73,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lbIRegistrarse"
+        android:id="@+id/lblRegistrarse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"

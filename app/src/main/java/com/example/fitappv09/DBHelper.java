@@ -76,18 +76,39 @@ public class DBHelper extends SQLiteOpenHelper {
                 "Id_entrenamiento INTEGER REFERENCES Entrenamiento(Id_entrenamiento))");
     }
 
-    public long insertarUsuario(String username, String email, String password){
-        SQLiteDatabase db = getWritableDatabase();
+    public boolean insertarUsuario(String username, String email, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valor = new ContentValues();
         valor.put("Nombre_usuario", username);
         valor.put("Email", email);
         valor.put("Contraseña", password);
-        return db.insert(TABLA_USUARIO,null,valor);
+        long resultado = db.insert(TABLA_USUARIO,null,valor);
+        if (resultado == -1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public Cursor getUsuario(String username){
-        SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM "+ TABLA_USUARIO +" WHERE Nombre_usuario="+ username, null);
+    public Boolean comprobarNombreUsuario(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ TABLA_USUARIO +" WHERE Nombre_usuario=?", new String[]{username});
+        if (cursor.getCount() > 0){
+            return  true;
+        } else {
+            return false;
+        }
     }
 
+
+    public Boolean comprobarLogin(String username, String password){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLA_USUARIO + " WHERE Nombre_usuario=? AND Contraseña=?", new String[]{username, password});
+        int login = cursor.getCount();
+        if(login > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
