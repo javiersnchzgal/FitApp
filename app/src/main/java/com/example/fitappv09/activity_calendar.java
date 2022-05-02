@@ -1,6 +1,7 @@
 package com.example.fitappv09;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ public class activity_calendar extends AppCompatActivity implements View.OnClick
 
     DBHelper db;
     Context context;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class activity_calendar extends AppCompatActivity implements View.OnClick
 
         switch (v.getId()){
             case R.id.btnCrearEntrenamiento:
-                //cod
+                    intent = new Intent(this, activity_exercises.class);
+                    startActivity(intent);
                 break;
 
         }

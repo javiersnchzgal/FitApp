@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_login">
+    tools:context=".activity_calendar">
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/btnMenu"
+        android:id="@+id/btnMenuExercises"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -71,7 +72,7 @@
         tools:text="Crear Entrenamiento" />
 
     <ImageButton
-        android:id="@+id/btnTemporizador"
+        android:id="@+id/btnTemporizadorExercises"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -81,5 +82,6 @@
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="#FFFFFF" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

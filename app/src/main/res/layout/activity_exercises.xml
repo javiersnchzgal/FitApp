@@ -3,8 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity_login">
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/txtSeries"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="25dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toEndOf="@+id/lblSeries"
+        app:layout_constraintTop_toBottomOf="@+id/txtEjercicio" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/btnMenu"
+        android:id="@+id/btnMenuExercises"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="133dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="142dp"
         android:backgroundTint="#F15D66"
         android:onClick="onClick"
@@ -61,7 +75,7 @@
         tools:text="Guardar Ejercicio" />
 
     <ImageButton
-        android:id="@+id/btnTemporizador"
+        android:id="@+id/btnTemporizadorExercises"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -73,7 +87,7 @@
         app:tint="#FFFFFF" />
 
     <ImageButton
-        android:id="@+id/btnRetoceder"
+        android:id="@+id/btnRetocederExercises"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -85,55 +99,66 @@
         app:tint="@color/black" />
 
     <TextView
+        android:id="@+id/lblFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="180dp"
+        android:text="Fecha"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/lblEjercicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="35dp"
         android:text="Ejercicio"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/lblFecha" />
 
     <TextView
         android:id="@+id/lblSeries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:text="Series"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblEjercicio"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblEjercicio" />
 
     <TextView
         android:id="@+id/lblRepeticiones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:text="Repeticiones"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSeries"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblSeries" />
 
     <TextView
         android:id="@+id/lblPeso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:text="Peso"
+        android:layout_marginTop="35dp"
+        android:text="Peso (kg)"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblRepeticiones" />
 
     <TextView
         android:id="@+id/lblComentarios"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="16dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:text="Comentarios:"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,8 +174,65 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblComentarios" />
+
+    <EditText
+        android:id="@+id/txtEjercicio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="25dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblEjercicio"
+        app:layout_constraintTop_toBottomOf="@+id/txtFecha" />
+
+    <EditText
+        android:id="@+id/txtFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="170dp"
+        android:clickable="true"
+        android:maxLines="1"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="date"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/lblFecha"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtRepeticiones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblRepeticiones"
+        app:layout_constraintTop_toBottomOf="@+id/txtSeries" />
+
+    <EditText
+        android:id="@+id/txtPeso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/lblPeso"
+        app:layout_constraintTop_toBottomOf="@+id/txtRepeticiones" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
