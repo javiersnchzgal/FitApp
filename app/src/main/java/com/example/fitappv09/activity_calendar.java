@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class activity_calendar extends AppCompatActivity implements View.OnClickListener {
 
     Button btnCrearEntrenamiento;
+    CalendarView calendarView;
 
     DBHelper db;
     Context context;
@@ -26,6 +28,7 @@ public class activity_calendar extends AppCompatActivity implements View.OnClick
 
         btnCrearEntrenamiento = findViewById(R.id.btnCrearEntrenamiento);
         btnCrearEntrenamiento.setOnClickListener(this);
+
     }
 
 
@@ -34,6 +37,8 @@ public class activity_calendar extends AppCompatActivity implements View.OnClick
 
         switch (v.getId()){
             case R.id.btnCrearEntrenamiento:
+                    calendarView.getDate();
+
                     intent = new Intent(this, activity_exercises.class);
                     startActivity(intent);
                 break;
