@@ -54,6 +54,7 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
         btnGuardarEjercicio = findViewById(R.id.btnGuardarEjercicio);
 
         btnRetroceder = findViewById(R.id.btnRetocederExercises);
+        btnRetroceder.setOnClickListener(this);
 
     }
 
@@ -63,6 +64,10 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
         switch (v.getId()){
             case R.id.txtFecha:
                 showDatePickerDialog();
+                break;
+            case R.id.btnRetocederExercises:
+                intent = new Intent(this, activity_calendar.class);
+                startActivity(intent);
                 break;
         }
     }

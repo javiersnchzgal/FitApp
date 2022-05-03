@@ -56,24 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnGuardarEjercicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="133dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="142dp"
-        android:backgroundTint="#F15D66"
-        android:onClick="onClick"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:cornerRadius="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.445"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtComentarios"
-        tools:text="Guardar Ejercicio" />
-
     <ImageButton
         android:id="@+id/btnTemporizadorExercises"
         android:layout_width="wrap_content"
@@ -234,5 +216,22 @@
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/lblPeso"
         app:layout_constraintTop_toBottomOf="@+id/txtRepeticiones" />
+
+    <Button
+        android:id="@+id/btnGuardarEjercicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="111dp"
+        android:backgroundTint="#F15D66"
+        android:onClick="onClick"
+        android:text="Guardar Ejercicio"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtComentarios" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

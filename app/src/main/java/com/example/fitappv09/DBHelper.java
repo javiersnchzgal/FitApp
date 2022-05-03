@@ -111,4 +111,9 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public void  insertarEjercicio(){
+
+
+    }
 }
