@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fitappv09.database.DBHelper;
+import com.example.fitappv09.listView.Entrenamiento;
+import com.example.fitappv09.listView.ListAdapter;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,6 @@ public class activity_workout extends AppCompatActivity implements View.OnClickL
 
     Cursor consultaIdEntrenamiento;
 
-    //ArrayList<Integer> id = new ArrayList<Integer>();
     ArrayList<String> ejercicios = new ArrayList<String>();
 
     @Override
@@ -60,39 +60,41 @@ public class activity_workout extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         fecha = intent.getStringExtra("fecha");
+
+        Entrenamiento e = new Entrenamiento((int) idEntrenamiento,fecha,username);
+
         tvFechaEntrenamiento.setText(fecha);
 
         //ListView
 
         listaEjercicios = findViewById(R.id.listaEjecicios);
         generateListContent();
-        listaEjercicios.setAdapter(new ListAdapter(this,R.layout.custom_list, ejercicios));
-        listaEjercicios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-
-
+        listaEjercicios.setAdapter(new ListAdapter(ejercicios, this, e));
     }
 
     private void generateListContent(){
-        //MODIFICAR
         Cursor c1 = db.consultarIdEntrenamiento(fecha, username);
+        try {
+            if( c1 != null && c1.moveToFirst()) {
+                ArrayList<Integer> id = new ArrayList<Integer>();
+                do {
+                    id.add(c1.getInt(0));
+                } while (c1.moveToNext());
 
-        if( c1 != null && c1.moveToFirst()) {
-            ArrayList<Integer> id = new ArrayList<Integer>();
-            do {
-                id.add(c1.getInt(0));
-            } while (c1.moveToNext());
+                Cursor c2 = db.consultarEjerciciosEntrenamiento(String.valueOf(id.get(0)));
 
-            Cursor c2 = db.consultarEjerciciosEntrenamiento(String.valueOf(id.get(0)));
+                while (c2.moveToNext()){
+                    ejercicios.add(c2.getInt(0) + " " + c2.getString(1) + ":  "
+                            + c2.getInt(2)  + " x " + c2.getInt(3) + "  "
+                            + c2.getFloat(4) + " kg");
+                }
 
-            while (c2.moveToNext()){
-                ejercicios.add("\t" + c2.getString(1) + ":  " + c2.getInt(2)
-                        + " x " + c2.getInt(3) + "  " + c2.getFloat(4) + " kg");
+                c2.close();
             }
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            c1.close();
         }
     }
 

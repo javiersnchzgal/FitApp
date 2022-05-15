@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.fitappv09.listView.ListAdapter;
+
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -92,7 +94,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public Boolean comprobarNombreUsuario(String username){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+ TABLA_USUARIO +" WHERE Nombre_usuario=?", new String[]{username});
-        if (cursor.getCount() > 0){
+        int usuario = cursor.getCount();
+        if (usuario > 0){
             return  true;
         } else {
             return false;
@@ -101,8 +104,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public Boolean comprobarLogin(String username, String password){
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLA_USUARIO + " WHERE Nombre_usuario=? AND Contraseña=?", new String[]{username, password});
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLA_USUARIO + " WHERE Nombre_usuario=? AND Contraseña=?", new String[]{username, password});
         int login = cursor.getCount();
         if(login > 0){
             return true;
@@ -127,8 +130,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Boolean comprobarEntrenamiento(String fecha, String nombreUsuario){
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLA_ENTRENAMIENTO+ " WHERE Fecha=? AND Nombre_usuario=?", new String[]{fecha, nombreUsuario});
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLA_ENTRENAMIENTO+ " WHERE Fecha=? AND Nombre_usuario=?", new String[]{fecha, nombreUsuario});
         int entrenamiento = cursor.getCount();
         if(entrenamiento > 0){
             return true;
@@ -150,6 +153,7 @@ public class DBHelper extends SQLiteOpenHelper {
         valor.put("Id_entrenamiento", idEntrenamiento);
         long id = db.insert(TABLA_EJERCICIO,null,valor);
         return id;
+
     }
 
     public Cursor consultarEjerciciosEntrenamiento(String id){
@@ -157,4 +161,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLA_EJERCICIO + " WHERE Id_entrenamiento=?", new String[]{id});
     }
 
+    public int eliminarEjercicio(String idEjercicio){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int ejercicioEliminado = db.delete(TABLA_EJERCICIO, "Id_ejercicio=?", new String[]{idEjercicio});
+        return ejercicioEliminado;
+    }
+
+    public int editarEjercicio(String idEjercicio, String nombreEjercicio, String series, String repeticiones, String peso){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put("Nombre_ejercicio", nombreEjercicio);
+        valores.put("Series", nombreEjercicio);
+        valores.put("Repeticiones", nombreEjercicio);
+        valores.put("Peso", nombreEjercicio);
+        int ejercicioEditado =  db.update(TABLA_EJERCICIO, valores,"Id_ejercicio=?", new String[] {idEjercicio});
+        return  ejercicioEditado;
+    }
 }
