@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fitappv09.database.DBHelper;
+
 public class activity_register extends AppCompatActivity implements View.OnClickListener {
 
     //Componentes Activity
@@ -20,6 +22,7 @@ public class activity_register extends AppCompatActivity implements View.OnClick
     Intent intent;
     DBHelper db;
     Context context;
+    long idUsuario;
 
 
     @Override
@@ -27,7 +30,7 @@ public class activity_register extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        db = new DBHelper(this);
+        db = new DBHelper(this, null);
         context = getApplicationContext();
 
         username = findViewById(R.id.txtInicioNombreUsuario);
@@ -60,9 +63,13 @@ public class activity_register extends AppCompatActivity implements View.OnClick
                     boolean existeUsuario = db.comprobarNombreUsuario(nombreUsuario);
                     if (existeUsuario == false) {
                         if (contraseña.equals(confirmacionContraseña)) {
-                            db.insertarUsuario(nombreUsuario, correo, contraseña);
-                            Toast.makeText(context,"Se ha registrado correctamente", Toast.LENGTH_SHORT).show();
-                            
+                            idUsuario = db.insertarUsuario(nombreUsuario, correo, contraseña);
+                            if(idUsuario == -1){
+                                Toast.makeText(context,"Se ha producido un error al registrarse", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context,"Se ha registrado correctamente", Toast.LENGTH_SHORT).show();
+                            }
+
                             //Borrar Campos
                             username.setText("");
                             email.setText("");

@@ -2,29 +2,39 @@ package com.example.fitappv09;
 
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import java.util.Calendar;
+
+import com.example.fitappv09.database.DBHelper;
 
 public class activity_exercises extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton btnMenu, btnTemporizador, btnRetroceder;
     Button  btnGuardarEjercicio;
-    EditText txtFecha, txtEjercicio, txtSeries, txtRepeticiones, txtPeso, txtComentarios;
+    TextView lblFecha;
+    EditText txtEjercicio, txtSeries, txtRepeticiones, txtPeso, txtComentarios;
+
     Intent intent;
     DBHelper db;
     Context context;
+
+    String username;
+    String fecha;
+    String nombreEjercicio;
+    int series;
+    int repeticiones;
+    float peso;
+    String comentarios;
+    int idEntrenamiento;
 
 
     @SuppressLint("WrongViewCast")
@@ -33,13 +43,19 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
-        db = new DBHelper(this);
+        db = new DBHelper(this, null);
         context = getApplicationContext();
 
-        //Campos de texto
-        txtFecha = findViewById(R.id.txtFecha);
-        txtFecha.setOnClickListener(this);
+        lblFecha = findViewById(R.id.lblFecha);
 
+        //Datos de la otra activity
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+        idEntrenamiento = (int) intent.getLongExtra("idEntrenamiento", 0);
+        fecha = intent.getStringExtra("fecha");
+        lblFecha.setText(fecha);
+
+        //Campos de texto
         txtEjercicio = findViewById(R.id.txtEjercicio);
         txtSeries = findViewById(R.id.txtSeries);
         txtRepeticiones = findViewById(R.id.txtRepeticiones);
@@ -48,10 +64,10 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
 
         //Botones
         btnMenu = findViewById(R.id.btnMenuExercises);
-
         btnTemporizador = findViewById(R.id.btnTemporizadorExercises);
 
         btnGuardarEjercicio = findViewById(R.id.btnGuardarEjercicio);
+        btnGuardarEjercicio.setOnClickListener(this);
 
         btnRetroceder = findViewById(R.id.btnRetocederExercises);
         btnRetroceder.setOnClickListener(this);
@@ -62,25 +78,30 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.txtFecha:
-                showDatePickerDialog();
-                break;
             case R.id.btnRetocederExercises:
-                intent = new Intent(this, activity_calendar.class);
+                intent = new Intent(this, activity_workout.class);
+                intent.putExtra("username", username);
+                intent.putExtra("fecha", fecha);
                 startActivity(intent);
                 break;
-        }
-    }
+            case R.id.btnGuardarEjercicio:
+                nombreEjercicio = String.valueOf(txtEjercicio.getText());
+                series = Integer.parseInt(String.valueOf(txtSeries.getText()));
+                repeticiones = Integer.parseInt(String.valueOf(txtRepeticiones.getText()));
+                peso = Float.parseFloat(String.valueOf(txtPeso.getText()));
+                comentarios = String.valueOf(txtComentarios.getText());
 
-    private void showDatePickerDialog(){
-        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                final String selectedDate = day + " / " + month + " / " + year;
-                txtFecha.setText(selectedDate);
-            }
-        });
-        newFragment.show(getSupportFragmentManager(),"datePicker");
+                long idEjercicio = db.insertarEjercicio(nombreEjercicio, series, repeticiones, peso, comentarios, idEntrenamiento);
+                if (idEjercicio == -1){
+                    Toast.makeText(context, "Se ha producido un error al guardar el ejercicio", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "El ejercicio se ha guardado correctamente", Toast.LENGTH_SHORT).show();
+                }
+
+
+                intent = new Intent(this, activity_workout.class);
+                startActivity(intent);
+        }
     }
 }
 

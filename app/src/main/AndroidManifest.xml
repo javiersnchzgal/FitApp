@@ -22,7 +22,9 @@
         <activity android:name=".activity_login"/>
         <activity android:name=".activity_register"/>
         <activity android:name=".activity_calendar"/>
+        <activity android:name=".activity_workout" android:parentActivityName=".activity_calendar"/>
         <activity android:name=".activity_exercises" android:parentActivityName=".activity_calendar"/>
+
     </application>
 
 </manifest>

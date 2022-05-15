@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fitappv09.database.DBHelper;
+
 public class activity_login extends AppCompatActivity implements View.OnClickListener{
 
     EditText txtInicioNombreUsuario, txtInicioContrasena;
@@ -26,7 +28,7 @@ public class activity_login extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        db = new DBHelper(this);
+        db = new DBHelper(this, null);
         context = getApplicationContext();
 
         txtInicioNombreUsuario = findViewById(R.id.txtInicioNombreUsuario);
@@ -53,6 +55,7 @@ public class activity_login extends AppCompatActivity implements View.OnClickLis
                     txtInicioContrasena.setText("");
                     Toast.makeText(context,"Se ha iniciado sesión con éxito", Toast.LENGTH_SHORT).show();
                     intent = new Intent(activity_login.this, activity_calendar.class);
+                    intent.putExtra("username", username);
                     startActivity(intent);
                 } else {
                     Toast.makeText(context,"El usuario o la contraseña introducidos son erróneos", Toast.LENGTH_SHORT).show();
