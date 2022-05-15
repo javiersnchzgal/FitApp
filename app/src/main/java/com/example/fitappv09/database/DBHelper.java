@@ -1,10 +1,11 @@
-package com.example.fitappv09;
+package com.example.fitappv09.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import androidx.annotation.Nullable;
 
 
@@ -16,8 +17,8 @@ public class DBHelper extends SQLiteOpenHelper {
     static String TABLA_ENTRENAMIENTO = "Entrenamiento";
     static String TABLA_EJERCICIO = "Ejercicio";
 
-    public DBHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DBHelper(@Nullable Context context, SQLiteDatabase.CursorFactory factory) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
@@ -54,10 +55,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //Crear tabla usuario
         db.execSQL("CREATE TABLE " + TABLA_USUARIO +
-                "(Nombre_usuario VARCHAR(30)," +
+                "(Id_usuario INTEGER PRIMARY KEY autoincrement,"+
+                "Nombre_usuario VARCHAR(30)," +
                 "Email VARCHAR(40) UNIQUE NOT NULL,"+
-                "Contraseña VARCHAR(20)," +
-                "CONSTRAINT usuario_pk PRIMARY KEY(Nombre_usuario))");
+                "Contraseña VARCHAR(20))");
 
         //Crear tabla entrenamiento
         db.execSQL("CREATE TABLE " + TABLA_ENTRENAMIENTO +
@@ -72,22 +73,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 "Series INTEGER," +
                 "Repeticiones INTEGER," +
                 "Peso NUMBER(5,2)," +
-                "Comentarios TEXT," +
+                "Comentario VARCHAR(300)," +
                 "Id_entrenamiento INTEGER REFERENCES Entrenamiento(Id_entrenamiento))");
     }
 
-    public boolean insertarUsuario(String username, String email, String password){
+
+    //SENTENCIAS USUARIO
+    public long insertarUsuario(String username, String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valor = new ContentValues();
         valor.put("Nombre_usuario", username);
         valor.put("Email", email);
         valor.put("Contraseña", password);
-        long resultado = db.insert(TABLA_USUARIO,null,valor);
-        if (resultado == -1){
-            return true;
-        } else {
-            return false;
-        }
+        long idUsuario = db.insert(TABLA_USUARIO,null,valor);
+        return  idUsuario;
     }
 
     public Boolean comprobarNombreUsuario(String username){
@@ -112,8 +111,50 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void  insertarEjercicio(){
-
-
+    //SENTENCIAS ENTRENAMIENTOS
+    public long insertarEntrenamiento(String fecha, String nombreUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues valor = new ContentValues();
+        valor.put("Fecha", fecha);
+        valor.put("Nombre_usuario", nombreUsuario);
+        long idEntrenamiento = db.insert(TABLA_ENTRENAMIENTO,null,valor);
+        return idEntrenamiento;
     }
+
+    public Cursor consultarIdEntrenamiento(String fecha, String nombreUsuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT Id_Entrenamiento FROM " + TABLA_ENTRENAMIENTO + " WHERE Fecha=? AND Nombre_usuario=?", new String[]{fecha, nombreUsuario});
+    }
+
+    public Boolean comprobarEntrenamiento(String fecha, String nombreUsuario){
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLA_ENTRENAMIENTO+ " WHERE Fecha=? AND Nombre_usuario=?", new String[]{fecha, nombreUsuario});
+        int entrenamiento = cursor.getCount();
+        if(entrenamiento > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    //SENTENCIAS EJERCICIOS
+    public long insertarEjercicio(String nombreEjercicio, int series, int repeticiones, float peso, String comentario, int idEntrenamiento) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues valor = new ContentValues();
+        valor.put("Nombre_ejercicio", nombreEjercicio);
+        valor.put("Series", series);
+        valor.put("Repeticiones", repeticiones);
+        valor.put("Peso", peso);
+        //valor.put("Comentario", comentario);
+        valor.put("Id_entrenamiento", idEntrenamiento);
+        long id = db.insert(TABLA_EJERCICIO,null,valor);
+        return id;
+    }
+
+    public Cursor consultarEjerciciosEntrenamiento(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLA_EJERCICIO + " WHERE Id_entrenamiento=?", new String[]{id});
+    }
+
 }

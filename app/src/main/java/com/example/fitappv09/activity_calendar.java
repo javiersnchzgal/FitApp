@@ -4,43 +4,40 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fitappv09.calendar.CalendarAdapter;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class activity_calendar extends AppCompatActivity implements CalendarAdapter.OnItemListener, View.OnClickListener {
+public class activity_calendar extends AppCompatActivity implements CalendarAdapter.OnItemListener{
 
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
 
-    Button btnCrearEntrenamiento;
-
-    DBHelper db;
     Context context;
     Intent intent;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        intent = getIntent();
+        username = intent.getStringExtra("username");
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
 
-        db = new DBHelper(this);
         context = getApplicationContext();
-
 
     }
 
@@ -80,22 +77,10 @@ public class activity_calendar extends AppCompatActivity implements CalendarAdap
     }
 
     private String monthYearFromDate(LocalDate date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
         return date.format(formatter);
     }
 
-    @Override
-    public void onClick(View v) {
-/*
-        switch (v.getId()){
-            case R.id.btnCrearEntrenamiento:
-
-                    intent = new Intent(this, activity_exercises.class);
-                    startActivity(intent);
-                break;
-
-        }*/
-    }
 
     public void previousMonthAction(View view){
         selectedDate = selectedDate.minusMonths(1);
@@ -110,8 +95,11 @@ public class activity_calendar extends AppCompatActivity implements CalendarAdap
     @Override
     public void onItemClick(int position, String dayText) {
         if (!dayText.equals("")){
-            String message = "Fecha seleccionada " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            String fecha = monthYearFromDate(selectedDate) + "-" + dayText;
+            Intent intent = new Intent(context, activity_workout.class);
+            intent.putExtra("fecha", fecha);
+            intent.putExtra("username", username);
+            startActivity(intent);
         }
     }
 }
