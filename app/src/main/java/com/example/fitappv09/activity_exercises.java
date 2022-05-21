@@ -4,6 +4,7 @@ package com.example.fitappv09;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,11 +31,13 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
     String username;
     String fecha;
     String nombreEjercicio;
+    String idEjercicio;
     int series;
     int repeticiones;
     float peso;
     String comentarios;
     int idEntrenamiento;
+    boolean editar;
 
 
     @SuppressLint("WrongViewCast")
@@ -53,6 +56,8 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
         username = intent.getStringExtra("username");
         idEntrenamiento = (int) intent.getLongExtra("idEntrenamiento", 0);
         fecha = intent.getStringExtra("fecha");
+        editar = intent.getBooleanExtra("editar", false);
+        idEjercicio = intent.getStringExtra("idEjercicio");
         lblFecha.setText(fecha);
 
         //Campos de texto
@@ -72,6 +77,23 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
         btnRetroceder = findViewById(R.id.btnRetocederExercises);
         btnRetroceder.setOnClickListener(this);
 
+        //Campos editar
+        if (editar) {
+            Cursor datosEjercicio = db.consultarEjercicio(idEjercicio);
+
+            try {
+                while (datosEjercicio.moveToNext()){
+                    txtEjercicio.setText(datosEjercicio.getString(1));
+                    txtSeries.setText(datosEjercicio.getString(2));
+                    txtRepeticiones.setText(datosEjercicio.getString(3));
+                    txtPeso.setText(datosEjercicio.getString(4));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                datosEjercicio.close();
+            }
+        }
     }
 
     @Override
@@ -85,22 +107,41 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.btnGuardarEjercicio:
-                nombreEjercicio = String.valueOf(txtEjercicio.getText());
-                series = Integer.parseInt(String.valueOf(txtSeries.getText()));
-                repeticiones = Integer.parseInt(String.valueOf(txtRepeticiones.getText()));
-                peso = Float.parseFloat(String.valueOf(txtPeso.getText()));
-                comentarios = String.valueOf(txtComentarios.getText());
+                if (editar == false) {
+                    nombreEjercicio = String.valueOf(txtEjercicio.getText());
+                    series = Integer.parseInt(String.valueOf(txtSeries.getText()));
+                    repeticiones = Integer.parseInt(String.valueOf(txtRepeticiones.getText()));
+                    peso = Float.parseFloat(String.valueOf(txtPeso.getText()));
+                    comentarios = String.valueOf(txtComentarios.getText());
 
-                long idEjercicio = db.insertarEjercicio(nombreEjercicio, series, repeticiones, peso, comentarios, idEntrenamiento);
-                if (idEjercicio == -1){
-                    Toast.makeText(context, "Se ha producido un error al guardar el ejercicio", Toast.LENGTH_SHORT).show();
+                    long idEjercicio = db.insertarEjercicio(nombreEjercicio, series, repeticiones, peso, comentarios, idEntrenamiento);
+                    if (idEjercicio == -1) {
+                        Toast.makeText(context, "Se ha producido un error al guardar el ejercicio", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "El ejercicio se ha guardado correctamente", Toast.LENGTH_SHORT).show();
+                    }
+
+                    intent = new Intent(this, activity_workout.class);
+                    startActivity(intent);
                 } else {
-                    Toast.makeText(context, "El ejercicio se ha guardado correctamente", Toast.LENGTH_SHORT).show();
+                    nombreEjercicio = String.valueOf(txtEjercicio.getText());
+                    series = Integer.parseInt(String.valueOf(txtSeries.getText()));
+                    repeticiones = Integer.parseInt(String.valueOf(txtRepeticiones.getText()));
+                    peso = Float.parseFloat(String.valueOf(txtPeso.getText()));
+                    comentarios = String.valueOf(txtComentarios.getText());
+
+                    int ejercicioEditado = db.editarEjercicio(idEjercicio, nombreEjercicio, series, repeticiones, peso);
+                    if (ejercicioEditado == 0) {
+                        Toast.makeText(context, "Se ha producido un error al editar el ejercicio", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "El ejercicio ha sido editado con éxito", Toast.LENGTH_SHORT).show();
+                    }
+
+                    intent = new Intent(this, activity_workout.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("fecha", fecha);
+                    startActivity(intent);
                 }
-
-
-                intent = new Intent(this, activity_workout.class);
-                startActivity(intent);
         }
     }
 }

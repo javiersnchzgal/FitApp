@@ -108,10 +108,19 @@ public class ListAdapter extends BaseAdapter implements android.widget.ListAdapt
                         do {
                             idEntrenamiento = consultaIdEntrenamiento.getInt(0);
                         } while (consultaIdEntrenamiento.moveToNext());
+
+                        //Obtener id Ejercicio
+                        String cadenaEjercicio = list.get(position);
+                        String[] subcadena = cadenaEjercicio.split(" ");
+                        String idEjercicio = subcadena[0];
+
+                        //Enviar dato a la pantalla de ejercicios
                         intent = new Intent(context, activity_exercises.class);
                         intent.putExtra("username", entrenamiento.getNombreUsuario());
                         intent.putExtra("fecha", entrenamiento.getFecha());
                         intent.putExtra("idEntrenamiento", idEntrenamiento);
+                        intent.putExtra("idEjercicio", idEjercicio );
+                        intent.putExtra("editar", true);
                         context.startActivity(intent);
                     }
                 }

@@ -167,14 +167,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return ejercicioEliminado;
     }
 
-    public int editarEjercicio(String idEjercicio, String nombreEjercicio, String series, String repeticiones, String peso){
+    public int editarEjercicio(String idEjercicio, String nombreEjercicio, int series, int repeticiones, float peso){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("Nombre_ejercicio", nombreEjercicio);
-        valores.put("Series", nombreEjercicio);
-        valores.put("Repeticiones", nombreEjercicio);
-        valores.put("Peso", nombreEjercicio);
+        valores.put("Series", series);
+        valores.put("Repeticiones", repeticiones);
+        valores.put("Peso", peso);
         int ejercicioEditado =  db.update(TABLA_EJERCICIO, valores,"Id_ejercicio=?", new String[] {idEjercicio});
         return  ejercicioEditado;
+    }
+
+    public Cursor consultarEjercicio(String idEjercicio){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLA_EJERCICIO + " WHERE Id_ejercicio=?",new String[] {idEjercicio});
     }
 }
