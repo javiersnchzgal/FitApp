@@ -44,7 +44,7 @@ public class ListAdapter extends BaseAdapter implements android.widget.ListAdapt
         this.list = list;
         this.context = context;
         this.entrenamiento = entrenamiento;
-        db = new DBHelper(context, null);
+        db = new DBHelper(context);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class activity_workout extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_workout);
 
         context = getApplicationContext();
-        db = new DBHelper(this, null);
+        db = new DBHelper(this);
 
         btnRetrocederCalendar = findViewById(R.id.btnRetocederCalendar);
         btnRetrocederCalendar.setOnClickListener(this);

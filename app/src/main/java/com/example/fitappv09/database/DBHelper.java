@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.fitappv09.listView.ListAdapter;
-
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -19,9 +17,10 @@ public class DBHelper extends SQLiteOpenHelper {
     static String TABLA_ENTRENAMIENTO = "Entrenamiento";
     static String TABLA_EJERCICIO = "Ejercicio";
 
-    public DBHelper(@Nullable Context context, SQLiteDatabase.CursorFactory factory) {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    public DBHelper(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -80,7 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    //SENTENCIAS USUARIO
+    //SENTENCIAS TABLA USUARIO
     public long insertarUsuario(String username, String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valor = new ContentValues();
@@ -102,7 +101,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-
     public Boolean comprobarLogin(String username, String password){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLA_USUARIO + " WHERE Nombre_usuario=? AND Contraseña=?", new String[]{username, password});
@@ -114,7 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    //SENTENCIAS ENTRENAMIENTOS
+    //SENTENCIAS TABLA ENTRENAMIENTOS
     public long insertarEntrenamiento(String fecha, String nombreUsuario) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valor = new ContentValues();
@@ -140,8 +138,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-
-    //SENTENCIAS EJERCICIOS
+    //SENTENCIAS TABLA EJERCICIOS
     public long insertarEjercicio(String nombreEjercicio, int series, int repeticiones, float peso, String comentario, int idEntrenamiento) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valor = new ContentValues();

@@ -46,7 +46,7 @@ public class activity_exercises extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
-        db = new DBHelper(this, null);
+        db = new DBHelper(this);
         context = getApplicationContext();
 
         lblFecha = findViewById(R.id.lblFecha);

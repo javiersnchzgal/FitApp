@@ -28,7 +28,7 @@ public class activity_login extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        db = new DBHelper(this, null);
+        db = new DBHelper(this);
         context = getApplicationContext();
 
         txtInicioNombreUsuario = findViewById(R.id.txtInicioNombreUsuario);

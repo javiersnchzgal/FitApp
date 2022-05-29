@@ -30,7 +30,7 @@ public class activity_register extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        db = new DBHelper(this, null);
+        db = new DBHelper(this);
         context = getApplicationContext();
 
         username = findViewById(R.id.txtInicioNombreUsuario);
